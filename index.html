@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harmonie-アルモ-株式会社</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ===========================
+       RESET & BASE
+    =========================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f6f3ee;
+      --bg-card:  #efece6;
+      --ink:      #1c1a17;
+      --ink-mid:  #5a5650;
+      --ink-light:#a09b94;
+      --border:   #dedad3;
+      --gold:     #b5965a;
+      --white:    #fdfcfa;
+
+      --serif:    'Noto Serif JP', 'Cormorant Garamond', serif;
+      --sans:     'Noto Sans JP', sans-serif;
+      --italic:   'Cormorant Garamond', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ===========================
+       NAV
+    =========================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(246,243,238,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 56px;
+      height: 72px;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ===========================
+       HERO
+    =========================== */
+    .hero {
+      min-height: 100vh;
+      padding-top: 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 背景の薄い縦線テクスチャ */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 59px,
+        rgba(28,26,23,0.04) 59px,
+        rgba(28,26,23,0.04) 60px
+      );
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(48px, 8vw, 110px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+
+    .hero-title-sub {
+      font-family: var(--serif);
+      font-size: clamp(18px, 2.5vw, 30px);
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.2em;
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+
+    .hero-desc {
+      font-size: 13px;
+      line-height: 2.4;
+      color: var(--ink-mid);
+      max-width: 480px;
+      letter-spacing: 0.08em;
+      margin-bottom: 64px;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+
+    .hero-scroll span {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--ink-light);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===========================
+       SECTION COMMON
+    =========================== */
+    .section-wrap {
+      padding: 120px 56px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 300;
+      line-height: 1.4;
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+    }
+
+    /* ===========================
+       ABOUT
+    =========================== */
+    #about {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 14px;
+      line-height: 2.6;
+      color: var(--ink-mid);
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+
+    .about-meta {
+      border-left: 1px solid var(--gold);
+      padding-left: 24px;
+    }
+
+    .about-meta dt {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .about-meta dd {
+      font-family: var(--serif);
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+
+    /* ===========================
+       BUSINESS CARDS
+    =========================== */
+    #business {
+      background: var(--bg);
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .b-card {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--border);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .b-card:hover {
+      box-shadow: 0 12px 48px rgba(28,26,23,0.10);
+      transform: translateY(-4px);
+      z-index: 1;
+    }
+
+    .b-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.8);
+      transition: filter 0.5s, transform 0.6s;
+    }
+    .b-card:hover .b-card-img {
+      filter: saturate(1);
+      transform: scale(1.04);
+    }
+
+    .b-card-img-wrap {
+      overflow: hidden;
+    }
+
+    .b-card-body {
+      padding: 28px 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .b-card-num {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+    }
+
+    .b-card-title {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0.05em;
+    }
+
+    .b-card-tag {
+      font-size: 11px;
+      color: var(--ink-light);
+      letter-spacing: 0.1em;
+    }
+
+    .b-card-desc {
+      font-size: 12px;
+      line-height: 2.1;
+      color: var(--ink-mid);
+      letter-spacing: 0.04em;
+      margin-top: auto;
+    }
+
+    .b-card-link {
+      margin-top: 20px;
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .b-card-link::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .b-card:hover .b-card-link::after { transform: translateX(4px); }
+
+    /* Coming Soon カード */
+    .b-card-soon .b-card-img-wrap {
+      background: var(--bg-card);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .soon-label {
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      color: var(--ink-light);
+    }
+
+    /* ===========================
+       CONTACT
+    =========================== */
+    #contact {
+      background: var(--ink);
+      text-align: center;
+    }
+
+    #contact .section-wrap { padding: 140px 56px; }
+
+    #contact .section-eyebrow { color: var(--gold); }
+
+    .contact-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 5vw, 64px);
+      font-weight: 300;
+      color: var(--bg);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .contact-tel {
+      font-family: var(--italic);
+      font-size: clamp(22px, 4vw, 48px);
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 56px;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      padding: 18px 72px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--italic);
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 0.3em;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .contact-btn:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .contact-address {
+      margin-top: 48px;
+      font-size: 12px;
+      color: rgba(246,243,238,0.35);
+      letter-spacing: 0.12em;
+      line-height: 2.2;
+    }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: #111009;
+      padding: 28px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(181,150,90,0.2);
+    }
+
+    footer p {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: rgba(246,243,238,0.25);
+    }
+
+    /* ===========================
+       FADE IN
+    =========================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+    .fade-up:nth-child(5) { transition-delay: 0.4s; }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 24px; }
+      .section-wrap { padding: 80px 24px; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .business-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .business-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Harmonie — アルモ — 株式会社</a>
+    <ul class="nav-links">
+      <li><a href="#business">事業紹介</a></li>
+      <li><a href="#about">企業理念</a></li>
+      <li><a href="#company">会社概要</a></li>
+      <li><a href="#contact">お問い合わせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <p class="hero-eyebrow">Harmonie — アルモ — 株式会社</p>
+    <h1 class="hero-title">多彩な事業で、<br>社会を豊かに。</h1>
+    <p class="hero-title-sub">Enriching Society Through Diverse Business</p>
+    <p class="hero-desc">
+      デジタルサイネージ・医療開業支援・美容サロン・<br>
+      健康・教育・チームビルディングなど、<br>
+      多角的な事業を展開しています。
+    </p>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-wrap">
+      <p class="section-eyebrow">About us</p>
+      <h2 class="section-title">企業理念</h2>
+      <div class="about-grid fade-up">
+        <div class="about-text">
+          <p>
+            Harmonie-アルモ-株式会社は、「和」と「調和」を理念の軸に、多様な分野で社会貢献を目指す企業です。
+          </p>
+          <p>
+            デジタル技術、医療・健康、教育、生活支援など、それぞれの専門領域において経験豊富なチームが課題解決に取り組み、お客様と社会の豊かさを共に築いていきます。
+          </p>
+        </div>
+        <dl class="about-meta">
+          <dt>Company Name</dt>
+          <dd>Harmonie-アルモ-株式会社</dd>
+          <dt>Philosophy</dt>
+          <dd>和・調和・多角的な価値創造</dd>
+          <dt>Business</dt>
+          <dd>
+            デジタルサイネージ / 医療開業支援<br>
+            貸しサロン / 結婚相談所 / 理学塾<br>
+            サバゲー・チームビルディング
+          </dd>
+          <dt>Contact</dt>
+          <dd>090-8648-2850</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS -->
+  <section id="business">
+    <div class="section-wrap">
+      <p class="section-eyebrow">Our Business</p>
+      <h2 class="section-title">事業紹介</h2>
+      <div class="business-grid">
+
+        <!-- 01 -->
+        <a href="mailto:info@harmo.co.jp" class="b-card fade-up">
+          <div class="b-card-img-wrap">
+            <img class="b-card-img" src="images/pic_kaitaishinnsyou1.png" alt="デジタルサイネージ" />
+          </div>
+          <div class="b-card-body">
+            <span class="b-card-num">01</span>
+            <h3 class="b-card-title">デジタルサイネージ事業</h3>
+            <span class="b-card-tag">Digital Signage</span>
+            <p class="b-card-desc">最新のデジタルサイネージ技術で、クリニック・店舗・公共空間の情報発信を革新します。</p>
+            <span class="b-card-link">お問い合わせ</span>
+          </div>
+        </a>
+
+        <!-- 02 -->
+        <a href="mailto:info@harmo.co.jp" class="b-card fade-up">
+          <div class="b-card-img-wrap">
+            <img class="b-card-img" src="images/pic_flgp.jpg" alt="フラッグラボ" />
+          </div>
+          <div class="b-card-body">
+            <span class="b-card-num">02</span>
+            <h3 class="b-card-title">クリニック・薬局開業支援<br>フラッグラボ 運営</h3>
+            <span class="b-card-tag">Flag Lab</span>
+            <p class="b-card-desc">開業支援経験者がチームで先導。薬局経営者や建築士、社労士など専門家がサポートします。</p>
+            <span class="b-card-link">お問い合わせ</span>
+          </div>
+        </a>
+
+        <!-- 03 -->
+        <a href="https://feria-partners.jp/" target="_blank" class="b-card fade-up">
+          <div class="b-card-img-wrap">
+            <img class="b-card-img" src="images/pic_feria.jpg" alt="フェリアパートナーズ" />
+          </div>
+          <div class="b-card-body">
+            <span class="b-card-num">03</span>
+            <h3 class="b-card-title">結婚相談所<br>フェリアパートナーズ 運営</h3>
+            <span class="b-card-tag">Feria Partners</span>
+            <p class="b-card-desc">出逢いは必ず訪れます。パートナー探しのプロが二人三脚でサポートします。</p>
+            <span class="b-card-link">公式ページへ</span>
+          </div>
+        </a>
+
+        <!-- 04 -->
+        <a href="https://kaitaishinshou.jp/" target="_blank" class="b-card fade-up">
+          <div class="b-card-img-wrap">
+            <img class="b-card-img" src="images/pic_kaitaishinshou.jpg" alt="理学塾解体新床" />
+          </div>
+          <div class="b-card-body">
+            <span class="b-card-num">04</span>
+            <h3 class="b-card-title">理学塾 解体新床 運営</h3>
+            <span class="b-card-tag">Kaitai Shinshou</span>
+            <p class="b-card-desc">慢性疾患型腰痛・肩こり・頭痛改善から格闘家・運動選手の指導まで幅広く対応。</p>
+            <span class="b-card-link">公式ページへ</span>
+          </div>
+        </a>
+
+        <!-- 05 -->
+        <div class="b-card b-card-soon fade-up">
+          <div class="b-card-img-wrap">
+            <img class="b-card-img" src="images/pic_sbg.jpg" alt="サバゲー事業" />
+          </div>
+          <div class="b-card-body">
+            <span class="b-card-num">05</span>
+            <h3 class="b-card-title">サバゲー・チームビルディング事業</h3>
+            <span class="b-card-tag">Survival Game / Team Building</span>
+            <p class="b-card-desc">サバゲーを活用した革新的なチームビルディングと社員教育サービスを提供。</p>
+            <span class="b-card-link" style="color:var(--ink-light); font-style:italic;">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-wrap">
+      <p class="section-eyebrow">Contact</p>
+      <p class="contact-title">Harmonie-アルモ-株式会社</p>
+      <p class="contact-tel">090-8648-2850</p>
+      <a href="mailto:info@harmo.co.jp" class="contact-btn">お問い合わせ</a>
+      <p class="contact-address">
+        info@harmo.co.jp
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© Harmonie Co., Ltd.</p>
+    <p>Harmonie — アルモ — 株式会社</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
