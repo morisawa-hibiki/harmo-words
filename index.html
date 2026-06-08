@@ -123,6 +123,14 @@
       pointer-events: none;
     }
 
+    /* ロゴ */
+    .hero-logo {
+      width: clamp(180px, 28vw, 360px);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 1s 0.2s forwards;
+    }
+
     .hero-eyebrow {
       font-family: var(--italic);
       font-style: italic;
@@ -131,7 +139,7 @@
       color: var(--gold);
       margin-bottom: 40px;
       opacity: 0;
-      animation: fadeUp 1s 0.3s forwards;
+      animation: fadeUp 1s 0.4s forwards;
     }
 
     .hero-title {
@@ -315,10 +323,17 @@
       display: block;
       filter: saturate(0.8);
       transition: filter 0.5s, transform 0.6s;
+      /* 画像が読み込まれない場合の背景色 */
+      background: var(--bg-card);
     }
     .b-card:hover .b-card-img {
       filter: saturate(1);
       transform: scale(1.04);
+    }
+
+    /* 画像ラップにもoverflow:hidden */
+    .b-card-img-wrap {
+      overflow: hidden;
     }
 
     .b-card-img-wrap {
@@ -521,6 +536,7 @@
 
   <!-- HERO -->
   <section class="hero" id="top">
+    <img class="hero-logo" src="images/harmonie_logomark.png" alt="HARMONIE" />
     <p class="hero-eyebrow">Harmonie — アルモ — 株式会社</p>
     <h1 class="hero-title">多彩な事業で、<br>社会を豊かに。</h1>
     <p class="hero-title-sub">Enriching Society Through Diverse Business</p>
@@ -554,14 +570,6 @@
           <dd>Harmonie-アルモ-株式会社</dd>
           <dt>Philosophy</dt>
           <dd>和・調和・多角的な価値創造</dd>
-          <dt>Business</dt>
-          <dd>
-            デジタルサイネージ / 医療開業支援<br>
-            貸しサロン / 結婚相談所 / 理学塾<br>
-            サバゲー・チームビルディング
-          </dd>
-          <dt>Contact</dt>
-          <dd>090-8648-2850</dd>
         </dl>
       </div>
     </div>
@@ -668,11 +676,16 @@
   </footer>
 
   <script>
+    // 事業カード画像をプリロード
+    document.querySelectorAll('.b-card-img').forEach(img => {
+      if (img.src) { const i = new Image(); i.src = img.src; }
+    });
+
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('visible');
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   </script>
