@@ -63,7 +63,7 @@
       font-size: 13px;
       font-weight: 400;
       letter-spacing: 0.12em;
-      color: var(--ink);
+      color: #e07820;
     }
     .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a {
@@ -112,11 +112,30 @@
       pointer-events: none;
     }
 
-    .hero-logo {
-      width: clamp(180px, 28vw, 360px);
-      margin-bottom: 52px;
+    /* ロゴ：マーク部分のみ表示（上部をクリップ） */
+    .hero-logo-mark {
+      width: clamp(120px, 16vw, 220px);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center 18%;
+      margin-bottom: 16px;
       opacity: 0;
       animation: hFadeUp 1s 0.15s forwards;
+    }
+
+    /* HARMONIEテキスト画像をオレンジに */
+    .hero-logo-text-img {
+      width: clamp(160px, 22vw, 300px);
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: hFadeUp 1s 0.3s forwards;
+      /* 白→オレンジフィルター */
+      filter: brightness(0) saturate(100%) invert(52%) sepia(70%) saturate(700%) hue-rotate(5deg) brightness(1.1);
+    }
+
+    /* ロゴ下のHARMONIEテキストをオレンジに */
+    .hero-logo-label {
+      display: none;
     }
 
     /* clip-pathなしで下からせり上がるテキスト */
@@ -524,7 +543,9 @@
 
   <!-- HERO -->
   <section class="hero" id="top">
-    <img class="hero-logo" src="images/harmonie_logomark.png" alt="HARMONIE" />
+    <img class="hero-logo-mark" src="images/harmonie_logomark.png" alt="HARMONIE マーク" />
+    <img class="hero-logo-text-img" src="images/harmonie_logomark_hol.png" alt="HARMONIE" />
+    <p class="hero-logo-label">HARMONIE</p>
     <p class="hero-eyebrow">
       <span class="inner">Harmonie — アルモ — 株式会社</span>
     </p>
